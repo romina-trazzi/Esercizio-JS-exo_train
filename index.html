@@ -18,9 +18,13 @@
         <div class="container">
             <h3>Rules and Symbol</h3>
 
-            <p>- The train must have minimum 3 and maximum 5 elements.
-            <br>- Locomotive can go at the beginning and\or at the end of the train.
-            <br>- You can't fill a full train with cargo cars.</p>
+            <ol>
+                - The train must have minimum 3 and maximum 5 elements.
+                <br>- You can choose either a People train or a Cargo Train:
+                <br><span>People trains have Passenger and Restaurant cars, Cargo trains have only Cargo cars.</span>
+                <br>- Locomotive can go at the beginning and\or at the end of People trains, but only at the beginning of Cargo trains.
+                <br>- You can't fill a full train with cargo cars. The first car must be a locomotive.
+            </ol>
             
             <br>
 
@@ -28,7 +32,7 @@
                 <li>Locomotive: H </li>
                 <li>Passenger: P </li>
                 <li>Restaurant: R </li>
-                <li>Cargo: C </li>
+                <li>Cargo: C</li>
             </ul>
             
             <input type="text" id="train_string">
