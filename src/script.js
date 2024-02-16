@@ -19,10 +19,19 @@ const checkPattern = (userInput) => {
 
     // 3.2. Regex test boolean results
     if (regexResult) {
+        
+        // Timing function & loading message
+        document.getElementById("result").innerHTML = "Generating ASCII train..."; 
+        
+        // Coding function
         ASCII_Train_Generator(userString);
-        document.getElementById("train_string").value = ""; // Clear input field
+
+        // Clear input field 
+        document.getElementById("train_string").value = "";   
+    
     } else {
         alert("Please try again. Your string pattern is wrong");
+        document.getElementById("train_string").value = ""; 
     }
 }
 
@@ -35,23 +44,40 @@ document.getElementById("print_ASCII").addEventListener("click", () => {
 // 4. Function that generates and visualizes the Ascii Train code
 function ASCII_Train_Generator (userInput) {
 
-    // 4.1. Capitalize and explode the user string in single elements of an array
-    let stringSplit = userInput.toUpperCase().split("");
-
-    // 4.2. Compare each letter to the train variables and get train values
+    console.log('Start the creation of Ascii train');
+    
+    // 4.1 Empty Array data tracker
     let carriage = [];
+    
+    // 4.2. Capitalize and explode the user string in single elements of an array
+    let stringSplit = userInput.toUpperCase().split("");
 
     // 4.3. Check if train is a Cargo or a People one
     const cargoCondition = stringSplit.some((letter  => letter === "C"));
-
+    
     if (cargoCondition) {
-        // Algorithm for Cargo train
+        // 4.3.1. Algorithm for Cargo train
         carriage.push(trainLetter.H[0]);
-        // Conta le C.
-        // Se è pieno errore
-        // Se è con ristorante o passeggeri, errore
+
+        let cargoContainer = stringSplit.filter((letter => letter === "C"));
+
+        // Check for string errors
+        if (cargoContainer.length > 4) {
+            alert("Error: cannot fill a full train");
+            document.getElementById("train_string").value = ""; 
+        } else if (stringSplit.includes('R') || stringSplit.includes('C')) {
+            alert("Error: this is a Cargo train. R and P are for People trains");
+            document.getElementById("train_string").value = ""; 
+        // Create the cargo train
+        } else {
+            const lengthUserInput = stringSplit.length;
+            let totalCargoCarriage = lengthUserInput - cargoContainer.length;
+            console.log(totalCargoCarriage);
+
+        }
+
     } else {
-        // Algorithm for People train
+        // 4.3.2 Algorithm for People train
         stringSplit.forEach((letter, index) => {
             if (index === 0 && letter === "H") {
                 carriage.push(trainLetter.H[0]);
@@ -61,18 +87,22 @@ function ASCII_Train_Generator (userInput) {
                 carriage.push(trainLetter[letter]);
             }
         });
-
     }
-
+    
     // 4.4. Add the separator
     const carriageJoined = carriage.join("::");
 
+    console.log("carriageJoined:", carriageJoined); 
+
+    // 4.5. Write the solution into an HTML paragraph
+    document.getElementById("result").textContent = carriageJoined; 
+    
     return carriageJoined
 }
 
 
-// 4.5. Write the solution into an HTML paragraph
-document.getElementById("result").innerHTML = carriageJoined;    
+
+   
 
 
    
