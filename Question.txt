@@ -1,2 +1,5 @@
 1. Perché devo mettere il valore di userString dentro la funzione di listener per averlo aggiornato correttamente
 e non posso lasciarlo dentro la funzione stessa CheckPattern?
+
+2. Perché se imposto due volte innerHTML al paragrafo result, non
+viene l'output del treno (mentre con due textContent o un innerHTML + textContent) sì?

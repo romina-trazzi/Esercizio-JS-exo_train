@@ -1,6 +1,6 @@
 /*=============================================
     =           1. SETTING DATASET            =
-=============================================*/
+===============================================*/
 
 const trainLetterObj = {
     H: ["<HHHH", "HHHH>"],
@@ -11,14 +11,13 @@ const trainLetterObj = {
 
 let userString;
 
-let carriage = [];
-
 /*=====  End of Section Setting Dataset ======*/
 
 
-/*=====================================================================
-=            2. CHECK USER STRING PATTERN (ES 6 function)           =
-=======================================================================*/
+/*=================================================================
+=        2. CHECK USER STRING PATTERN (ES 6 arrow function)      =
+===================================================================*/
+
 
 //  Create Regex expressions for valid patterns
 const regex = /^(?=.*[HRPC])[HRPC]{3,5}$/i
@@ -28,16 +27,11 @@ const checkPattern = (userInput) => {
     let regexResult = regex.test(userInput);
 
     if (regexResult) {
-        
-        // Timing function & loading message
         document.getElementById("result").textContent = "Generating ASCII train..."; 
-        
-        // ASCII GENERATOR FUNCTION
-        ASCII_Train_Generator(userString);
 
-        // Clear input field 
-        resetInputField();
-    
+        // Generate Ascii train code with delay
+        setTimeout(() => ASCII_Train_Generator(userString), 1000);
+
     } else {
         alert("Please try again. Your string pattern is wrong");
         resetInputField();
@@ -47,12 +41,12 @@ const checkPattern = (userInput) => {
 /*====  End of Section Check user string pattern  ====*/
 
 
-
 /*==============================================================
 =       3. GENERATE ASCII TRAIN CODE (ES 5 function)           =
 =================================================================*/
 
 function ASCII_Train_Generator (userInput) {
+    let carriage = [];
  
     let stringSplit = userInput.toUpperCase().split("");
 
@@ -81,9 +75,11 @@ function ASCII_Train_Generator (userInput) {
         // Create Cargo train
         } else {
             carriage.push(trainLetterObj.H[0]);
-            carriage.push(...Array(numberOfCargo).fill(trainLetterObj.C[0]));
+            for (let i = 0; i < numberOfCargo; i++) {
+                const randomCargoIndex = getRandomInt(0, 1);
+                carriage.push(trainLetterObj.C[randomCargoIndex]);
+            }
         }
-
     } else {
         // 3.2 Algorithm for People train
         stringSplit.forEach((letter, index) => {
@@ -100,29 +96,16 @@ function ASCII_Train_Generator (userInput) {
     // Add the separator
     const carriageJoined = carriage.join("::");
 
-
-
+    // 3.3 Write the solution into an HTML paragraph
+    document.getElementById("result").textContent = carriageJoined;
+}
 
 /*==  End of Section Generate Ascii Train Code ===*/
 
 
-
-
-
-
-
-
-// 4. Generate and visualize the Ascii Train code 
-
-
-    // 4.5. Write the solution into an HTML paragraph
-    document.getElementById("result").textContent = carriageJoined; 
-
-}
-
-/*=============================================
-    =    4.       FIRING FUNCTIONS            =
-==============================================*/
+/*===========================================
+=    4.       FIRING FUNCTIONS            =
+=============================================*/
 
 // Fire the checkPattern function
 document.getElementById("print_ASCII").addEventListener("click", () => {
@@ -131,11 +114,15 @@ document.getElementById("print_ASCII").addEventListener("click", () => {
     checkPattern(userString);
 });
 
-// Clear input field (ES 6 arrow function)
+// Clear input field 
 const resetInputField = () => {
     document.getElementById("train_string").value = "";
 }
 
+// Get random integer 
+const getRandomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 /*=====  End of Section firing function  ======*/
 
 
