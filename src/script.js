@@ -11,6 +11,8 @@ const trainLetterObj = {
 
 let userString;
 
+let resultParagraph = document.getElementById("result"); 
+
 /*=====  End of Section Setting Dataset ======*/
 
 
@@ -18,12 +20,10 @@ let userString;
 =        2. CHECK USER STRING PATTERN (ES 6 arrow function)      =
 ===================================================================*/
 
-
 //  Create Regex expressions for valid patterns
 const regex = /^(?=.*[HRPC])[HRPC]{3,5}$/i
 
-const checkPattern = (userInput) => {
-        
+const checkPattern = (userInput) => {    
     let regexResult = regex.test(userInput);
 
     if (regexResult) {
@@ -65,7 +65,7 @@ function ASCII_Train_Generator (userInput) {
             resetInputField();
             return
         } else if (!stringSplit.includes('H')) {
-            alert("Error: cargo train must have a locomotive");
+            alert("Error: Cargo train must have a locomotive");
             resetInputField();
             return
         } else if (stringSplit.includes('R') || stringSplit.includes('P')) {
@@ -83,7 +83,11 @@ function ASCII_Train_Generator (userInput) {
     } else {
         // 3.2 Algorithm for People train
         stringSplit.forEach((letter, index) => {
-            if (index === 0 && letter === "H") {
+            if (index !== 0 && index !== stringSplit.length -1 && letter === "C") {
+                alert("Errror: You can't put locomotive in the middle of a train. Use it at the beginning and\or at the end.");
+                resetInputField();
+                return
+            } else if (index === 0 && letter === "H") {
                 carriage.push(trainLetterObj.H[0]);
             } else if (index === stringSplit.length - 1 && letter === "H") {
                 carriage.push(trainLetterObj.H[1]);
@@ -117,6 +121,7 @@ document.getElementById("print_ASCII").addEventListener("click", () => {
 // Clear input field 
 const resetInputField = () => {
     document.getElementById("train_string").value = "";
+    resultParagraph.textContent = "";
 }
 
 // Get random integer 
