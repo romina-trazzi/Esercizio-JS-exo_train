@@ -54,39 +54,49 @@ function ASCII_Train_Generator (userInput) {
     let containsCargo = stringSplit.some((letter  => letter === "C"));
     
     if (containsCargo) {
-        
+
+        console.log(stringSplit);
+
         // 3.1. Algorithm for Cargo train
         let cargoContainer = stringSplit.filter((letter => letter === "C"));
         let numberOfCargo = cargoContainer.length;
+        let numberOfLocomotives = stringSplit.filter(letter => letter === "H").length;
+    
+        switch (true) {
+            case numberOfCargo > 4:
+                alert("Error: cannot fill a full train");
+                resetInputField();
+                return;
+            case !stringSplit.includes('H'):
+                alert("Error: Cargo train must have a locomotive");
+                resetInputField();
+                return;
+            case numberOfLocomotives > 1:
+                alert("Error: You can't have more than one locomotive in a Cargo train");
+                resetInputField();
+                return;
+            case stringSplit.includes('R') || stringSplit.includes('P'):
+                alert("Error: this is a Cargo train. R and P are for People trains");
+                resetInputField();
+                return;
 
-        // Check for string errors
-        if (numberOfCargo > 4) {
-            alert("Error: cannot fill a full train");
-            resetInputField();
-            return
-        } else if (!stringSplit.includes('H')) {
-            alert("Error: Cargo train must have a locomotive");
-            resetInputField();
-            return
-        } else if (stringSplit.includes('R') || stringSplit.includes('P')) {
-            alert("Error: this is a Cargo train. R and P are for People trains");
-            resetInputField();
-            return
-        // Create Cargo train
-        } else {
-            carriage.push(trainLetterObj.H[0]);
-            for (let i = 0; i < numberOfCargo; i++) {
-                const randomCargoIndex = getRandomInt(0, 1);
-                carriage.push(trainLetterObj.C[randomCargoIndex]);
+            // Create Cargo train
+            default:
+                carriage.push(trainLetterObj.H[0]);
+                for (let i = 0; i < numberOfCargo; i++) {
+                    const randomCargoIndex = getRandomInt(0, 1);
+                    carriage.push(trainLetterObj.C[randomCargoIndex]);
+                }
             }
-        }
+    
     } else {
+        
         // 3.2 Algorithm for People train
         stringSplit.forEach((letter, index) => {
             if (index !== 0 && index !== stringSplit.length -1 && letter === "C") {
-                alert("Errror: You can't put locomotive in the middle of a train. Use it at the beginning and\or at the end.");
+                alert("Error: You can't put locomotive in the middle of a train. Use it at the beginning and\or at the end.");
                 resetInputField();
-                return
+                return;
             } else if (index === 0 && letter === "H") {
                 carriage.push(trainLetterObj.H[0]);
             } else if (index === stringSplit.length - 1 && letter === "H") {
@@ -94,6 +104,7 @@ function ASCII_Train_Generator (userInput) {
             } else if (letter in trainLetterObj) {
                 carriage.push(trainLetterObj[letter]);
             }
+            
         });
     }
     
